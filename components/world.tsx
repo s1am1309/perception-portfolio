@@ -433,7 +433,7 @@ function Hero() {
           color={COLORS.primary}
           fillOpacity={1}
         >
-          {ismobile ? `How I see\nthe world.` : `How I see the world.`}
+          {isMobile ? `How I see\nthe world.` : `How I see the world.`}
         </Text>
 
         <Text
@@ -462,13 +462,12 @@ function Hero() {
           color={COLORS.secondary}
           fillOpacity={0.55}
         >
-          {ismobile ? `Scroll to begin` : `Scroll to begin the journey`}
+          {isMobile ? `Scroll to begin` : `Scroll to begin the journey`}
         </Text>
       </group>
     </Scene>
   );
 }
-
 /* =========================================================
    MIND - Interactive Neural Map
 ========================================================= */
