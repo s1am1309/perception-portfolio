@@ -1063,4 +1063,281 @@ function Contact() {
           </Text>
           <Text
             position={[0, isMobile ? -0.4 : -0.5, 0]}
-            fontSize={isMobile ? 0.12 : 0.16
+            fontSize={isMobile ? 0.12 : 0.16}
+            textAlign="center"
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.08}
+            color={COLORS.secondary}
+            fillOpacity={0.8}
+          >
+            {`PROJECTS: 08 | EXPERIMENTS: 14`}
+          </Text>
+          <Text
+            position={[0, isMobile ? -0.8 : -1, 0]}
+            fontSize={isMobile ? 0.12 : 0.16}
+            textAlign="center"
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.08}
+            color={COLORS.secondary}
+            fillOpacity={0.8}
+          >
+            {`CURRENTLY: BUILDING AI`}
+          </Text>
+          <Text
+            position={[0, isMobile ? -1.2 : -1.5, 0]}
+            fontSize={isMobile ? 0.12 : 0.16}
+            textAlign="center"
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.08}
+            color={COLORS.secondary}
+            fillOpacity={0.8}
+          >
+            {`LOCATION: BANGLADESH`}
+          </Text>
+        </group>
+
+        {/* Social Links */}
+        <group position={[0, isMobile ? -2 : -2.5, 0]}>
+          <Text
+            position={[isMobile ? -0.9 : -1.15, 0, 0]}
+            fontSize={isMobile ? 0.07 : 0.09}
+            textAlign="center"
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.35}
+            color={COLORS.cyan}
+            fillOpacity={0.75}
+            onClick={() => window.open("https://github.com/s1am1309", "_blank")}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "default";
+            }}
+          >
+            GITHUB
+          </Text>
+
+          <Text
+            position={[0, 0, 0]}
+            fontSize={isMobile ? 0.07 : 0.09}
+            textAlign="center"
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.35}
+            color={COLORS.blue}
+            fillOpacity={0.75}
+            onClick={() => window.open("https://instagram.com/s1am1309", "_blank")}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "default";
+            }}
+          >
+            INSTAGRAM
+          </Text>
+
+          <Text
+            position={[isMobile ? 0.9 : 1.3, 0, 0]}
+            fontSize={isMobile ? 0.07 : 0.09}
+            textAlign="center"
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.35}
+            color={COLORS.teal}
+            fillOpacity={0.75}
+            onClick={() => {
+              window.location.href = "mailto:siam.info.09@gmail.com";
+            }}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "default";
+            }}
+          >
+            EMAIL
+          </Text>
+        </group>
+      </group>
+    </Scene>
+  );
+}
+
+/* =========================================================
+   PARTICLES - Professional effect
+========================================================= */
+
+function Particles() {
+  const points = useRef<THREE.Points>(null);
+  const { isMobile } = useDeviceDetect();
+  const particleCount = isMobile ? 800 : 1800;
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      const radius = isMobile ? 15 + Math.random() * 25 : 20 + Math.random() * 35;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      
+      pos[i * 3] = Math.sin(phi) * Math.cos(theta) * radius * 0.8;
+      pos[i * 3 + 1] = Math.sin(phi) * Math.sin(theta) * radius * 0.6;
+      pos[i * 3 + 2] = Math.cos(phi) * radius * 0.3 - 80;
+    }
+    return pos;
+  }, [particleCount]);
+
+  const originalPositions = useMemo(() => {
+    return new Float32Array(positions);
+  }, [positions]);
+
+  const speeds = useMemo(() => {
+    const speed = new Float32Array(particleCount);
+    for (let i = 0; i < particleCount; i++) {
+      speed[i] = 0.1 + Math.random() * 0.3;
+    }
+    return speed;
+  }, [particleCount]);
+
+  const prevScrollSpeed = useRef(0);
+  const smoothProgress = useRef(0);
+  const smoothScrollSpeed = useRef(0);
+  const smoothPositions = useMemo(() => {
+    return new Float32Array(positions);
+  }, [positions]);
+
+  useFrame((state) => {
+    if (!points.current) return;
+
+    const geometry = points.current.geometry;
+    const positionAttr = geometry.attributes.position;
+    const posArray = positionAttr.array as Float32Array;
+
+    const progress = getScrollProgress();
+    const rawScrollSpeed = Math.abs(progress - prevScrollSpeed.current) * 50;
+    
+    smoothProgress.current += (progress - smoothProgress.current) * 0.05;
+    smoothScrollSpeed.current += (rawScrollSpeed - smoothScrollSpeed.current) * (isMobile ? 0.05 : 0.03);
+    
+    prevScrollSpeed.current = progress;
+
+    const depthWobble = smoothProgress.current * 2 + 0.5;
+    const scrollSpeed = smoothScrollSpeed.current;
+    const wormholeStrength = isMobile ? 0.15 : 0.3;
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3;
+      
+      const ox = originalPositions[i3];
+      const oy = originalPositions[i3 + 1];
+      const oz = originalPositions[i3 + 2];
+
+      const scrollOffset = smoothProgress.current * 120 * speeds[i] * (isMobile ? 0.2 : 0.3);
+      const wormholeRadius = Math.sqrt(ox * ox + oy * oy);
+      const angle = Math.atan2(oy, ox);
+      const twist = depthWobble * wormholeStrength;
+      const distortedAngle = angle + twist * (1 / (1 + wormholeRadius * 0.05));
+      
+      const rx = Math.cos(distortedAngle) * wormholeRadius;
+      const ry = Math.sin(distortedAngle) * wormholeRadius;
+
+      const targetX = rx + ox * 0.05 * scrollSpeed * 0.02;
+      const targetY = ry + oy * 0.05 * scrollSpeed * 0.02;
+      const targetZ = oz + scrollOffset * 0.2;
+
+      const smoothing = isMobile ? 0.06 : 0.04;
+      smoothPositions[i3] += (targetX - smoothPositions[i3]) * smoothing;
+      smoothPositions[i3 + 1] += (targetY - smoothPositions[i3 + 1]) * smoothing;
+      smoothPositions[i3 + 2] += (targetZ - smoothPositions[i3 + 2]) * smoothing;
+
+      posArray[i3] = smoothPositions[i3];
+      posArray[i3 + 1] = smoothPositions[i3 + 1];
+      posArray[i3 + 2] = smoothPositions[i3 + 2];
+    }
+
+    positionAttr.needsUpdate = true;
+  });
+
+  const smoothRotation = useRef(0);
+  useFrame(() => {
+    if (!points.current) return;
+    const rotSpeed = isMobile ? 0.0001 : 0.0002;
+    smoothRotation.current += rotSpeed;
+    points.current.rotation.z = smoothRotation.current;
+  });
+
+  return (
+    <points ref={points}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
+        />
+      </bufferGeometry>
+
+      <pointsMaterial
+        color={COLORS.cyan}
+        size={isMobile ? 0.012 : 0.016}
+        sizeAttenuation
+        transparent
+        opacity={isMobile ? 0.4 : 0.6}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </points>
+  );
+}
+
+/* =========================================================
+   WORLD
+========================================================= */
+
+export default function World() {
+  const { isMobile } = useDeviceDetect();
+
+  return (
+    <div
+      className="fixed inset-0 z-0"
+      style={{
+        background:
+          "radial-gradient(circle at 50% 50%, #0A0A1A 0%, #050510 45%, #0A0A0F 100%)",
+      }}
+    >
+      <Canvas
+        camera={{
+          position: [0, 0, CAMERA_START_Z],
+          fov: isMobile ? 50 : 45,
+          near: 0.1,
+          far: 200,
+        }}
+        performance={{ min: isMobile ? 0.5 : 0.8 }}
+        dpr={isMobile ? [1, 1.5] : [1, 2]}
+      >
+        <CameraController />
+
+        <Star />
+
+        <Hero />
+        <Mind />
+        <Lab />
+        <Projects />
+        <JourneyTimeline />
+        <Contact />
+
+        <Particles />
+      </Canvas>
+
+      <Audio />
+    </div>
+  );
+}
