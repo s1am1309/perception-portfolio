@@ -433,7 +433,7 @@ function Hero() {
           color={COLORS.primary}
           fillOpacity={1}
         >
-          {mobile ? `How I see\nthe world.` : `How I see the world.`}
+          {ismobile ? `How I see\nthe world.` : `How I see the world.`}
         </Text>
 
         <Text
@@ -462,7 +462,7 @@ function Hero() {
           color={COLORS.secondary}
           fillOpacity={0.55}
         >
-          {mobile ? `Scroll to begin` : `Scroll to begin the journey`}
+          {ismobile ? `Scroll to begin` : `Scroll to begin the journey`}
         </Text>
       </group>
     </Scene>
