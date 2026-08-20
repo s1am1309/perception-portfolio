@@ -35,6 +35,7 @@ const COLORS = {
   indigo: "#6366F1",
   violet: "#8B5CF6",
   brightViolet: "#A78BFA",
+  
 
   wireframe: "#007FFF",
 };
